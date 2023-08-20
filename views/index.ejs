@@ -8,4 +8,22 @@
     <link rel="stylesheet" href="styles/styles.css">
 </head>
  <%- include('partials/layout.ejs') %>
+
+ <% if(locals.listTasks){ %>
+    
+        <%for(let i=0;i<locals.listTasks.length;i++){ %>
+            <ul>
+            <li>
+                <input type="checkbox" name="check<%=i %>" id="check<%=i %>">
+                <label for="check<%=i %>"><%= listTasks[i] %> </label>
+                
+            </li>
+                
+           </ul>
+        <% } %> 
+ <% } %>
+
+</div>  
+<script src="scripts/check.js"></script>
+</body>
 </html>

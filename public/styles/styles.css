@@ -17,13 +17,14 @@ body{
     margin-top: 5rem;
     padding: 2rem;
     border-radius: 5px;
+    width: 50%;
 }
 .toDoAdder{
     margin-top: 2rem;
     width: 100%;
 }
 #inp{
-    width: 80%;
+    width: 75%;
     background: transparent;
     color: #fff;
     height: 35px;
@@ -36,14 +37,30 @@ body{
 }
 
 #btn{
-    width: 15%;
+    width: 19%;
     height: 35px;
     border: none;
     background-color: #8758ff;
     color: #fff;
     cursor: pointer;
+    font-size: 70%;
 }
 h1{
    color: #d2d2df; 
-   
+}
+ul{
+    margin-top: 1rem;
+}
+ul li{
+    list-style: none;
+    border-top: 4px;
+    background-color: #8758ff;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 10px;
+    overflow:hidden;
+
+}
+.checked {
+    text-decoration: line-through;
 }
