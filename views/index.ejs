@@ -10,18 +10,25 @@
 </head>
  <%- include('partials/layout.ejs') %>
 
- <% if(locals.listTasks){ %>
-    
-        <%for(let i=0;i<locals.listTasks.length;i++){ %>
-            <ul>
-            <li>
-                <input type="checkbox" name="check<%=i %>" id="check<%=i %>">
-                <label for="check<%=i %>"><%= listTasks[i].album.id %> </label>
-                
+ <% if(locals.taskString){ %>
+    <p class="query"><%=taskString %></p>
+ <% } %>
+
+ <% if(locals.songsDisplay){ %>
+        <ul> 
+        <%for(let i=0;i<locals.songsDisplay.length;i++){ %>
+            <a>
+            <li> 
+                <img src="<%= songsDisplay[i].img  %>">               
+                <span class="sname"> <%= songsDisplay[i].name %> </span>      
+                <span class="dur"><%= songsDisplay[i].duration %></span>          
             </li>
-                
-           </ul>
+                         
         <% } %> 
+        </a>
+        </ul>
+       
+        
  <% } %>
 
 </div>  
