@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>toDoList</title>
+    <title>yourBeats</title>
+    <link rel="icon" href="images/music.ico">
     <link rel="stylesheet" href="styles/styles.css">
 </head>
  <%- include('partials/layout.ejs') %>
@@ -15,7 +16,7 @@
             <ul>
             <li>
                 <input type="checkbox" name="check<%=i %>" id="check<%=i %>">
-                <label for="check<%=i %>"><%= listTasks[i] %> </label>
+                <label for="check<%=i %>"><%= listTasks[i].album.id %> </label>
                 
             </li>
                 
@@ -24,6 +25,8 @@
  <% } %>
 
 </div>  
-<script src="scripts/check.js"></script>
+
+
+
 </body>
 </html>

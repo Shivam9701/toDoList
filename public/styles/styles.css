@@ -18,10 +18,13 @@ body{
     padding: 2rem;
     border-radius: 5px;
     width: 50%;
+    box-shadow: 0 0 50px 15px #48abe0;
+    transition: box-shadow ease 2.5s;
 }
 .toDoAdder{
     margin-top: 2rem;
     width: 100%;
+    align-items: center;
 }
 #inp{
     width: 75%;
@@ -37,13 +40,14 @@ body{
 }
 
 #btn{
-    width: 19%;
+    margin-left: 35%;
+    width: 29%;
     height: 35px;
     border: none;
     background-color: #8758ff;
     color: #fff;
     cursor: pointer;
-    font-size: 70%;
+    font-size: 90%;
 }
 h1{
    color: #d2d2df; 
