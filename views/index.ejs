@@ -15,25 +15,93 @@
  <% } %>
 
  <% if(locals.songsDisplay){ %>
-        <ul> 
+        <form id="search-form" action="/play" method="GET"> 
+          <ul id="search-list"> 
         <%for(let i=0;i<locals.songsDisplay.length;i++){ %>
-            <a>
-            <li> 
-                <img src="<%= songsDisplay[i].img  %>">               
-                <span class="sname"> <%= songsDisplay[i].name %> </span>      
-                <span class="dur"><%= songsDisplay[i].duration %></span>          
+            
+            <li class ="disp-song" data-value ="<%= songsDisplay[i].id %>""> 
+               
+                <img src="<%= songsDisplay[i].img  %>">
+                            
+                <span class="sname"> <%= songsDisplay[i].name %> </span>  
+                    
+                <span class="dur"><%= songsDisplay[i].duration %></span>
+                <span class="dropdown-trigger" id="trigger">
+  ...
+</span>
+
+  <ul class="dropdown-content">
+    <li>Add to Queue</li>
+    <li>Show Credits</li>
+    
+  </ul>
+          
             </li>
-                         
+              
         <% } %> 
-        </a>
+         
         </ul>
+         <input type = "hidden" name="track" value=""">
+      </form>
+       
        
         
  <% } %>
 
-</div>  
+</div> 
+<% if(locals.player) {%>
+  <% console.log(player) %>
+    <div class="music-controller">
+      
+      <div class="track-display">
+      <div class="img-disp"><img src="<%= player.img %>"></div>
+      
+      <div class="player-name">
 
+        <div class="track-name">
+          <span><%= player.name %></span>
+        </div>
 
+        <div class="artist-name"> 
+          <span class="artists"><%= player.artists %></span>
+        </div>  
+
+      </div>
+
+    </div>   
+      
+      <div class="button-ctr">
+        <button class="rewind button">
+        <img src="images/previous.png">
+      </button>
+      <button class="play button">
+        <img src="images/play-button.png">
+      </button>
+      <button class="forward button">
+        <img src="images/forward.png">
+      </button>
+    </div>
+     
+      <div class="progress-ctr">
+        <div class="progress-bar">
+         <div class="progress"></div>
+        </div>
+     </div>
+      
+
+    </div>
+
+    <div class="queue">
+        <% for (var i = 0; i <q.length;i++){ %>
+        <a><img src="<%= q[i].img %>""></a>
+        
+        <% } %>
+    </div>
+
+    <% }%>
+     
+
+<script src="scripts/options.js"></script>
 
 </body>
 </html>

@@ -13,65 +13,84 @@ const spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 const app = express();
 const port = 3000;
 const spotifyApi =new SpotifyWebApi();
+var songQueue =[];
+var songSet =new Set();
 
-var generateRandomString = function (length) {
-    var text = '';
-    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (var i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-};
-
-function millisToMinutesAndSeconds(millis) {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-}
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.set('views', 'views');
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
 
     if (!req.query.valid) {
+        
         res.render('home');
     } 
-    else {
+    else { 
         console.log("authorized! valid : " + req.query.valid);
         res.render('index');
+        
     }
 
 });
 
+app.get('/play',async(req,res) => {
+
+    if(req.query.track) {
+    const track = req.query.track;
+
+    const response =await spotifyApi.getTrack(track);
+    console.log(response.body.album);
+
+    let song = { img: "", id: "", name: "", artists: "", };
+
+    song.img =response.body.album.images[0].url;
+    song.id =response.body.album.id;
+    song.name = response.body.album.name;
+    response.body.album.artists.forEach(artist => {
+        song.artists+=(artist.name) + ", ";
+    });
+
+    songQueue.push(song);
+    res.redirect('/play');
+    }
+    app.locals.q=songQueue;
+    app.locals.player=songQueue[0];
+
+    res.render('index');
+});
 
 app.post('/', async(req, res) => {
 
     const task = req.body.task;
+    let songsDisplay = [];
     //console.log(task);
     try{
     const response = await spotifyApi.searchTracks(task,{limit:5});
-    console.log(response.body);
+    //console.log(response.body);
     const listTasks = response.body.tracks.items;
-    let songsDisplay=[];
+    
     
 
     listTasks.forEach(track =>{
-        let song = { name: "", duration: "", artists: [], img: "" };
+        //console.log(track);
+        let song = { name: "", duration: "", artists: "", img: "" ,id:""};
         song.name =track.name;
-        console.log(song.name);
+        //console.log(song.name);
         song.duration = millisToMinutesAndSeconds(track.duration_ms);
-        console.log(song.duration);
+        //console.log(song.duration);
 
         for (let i = 0; i<track.artists.length ;i++){
-            song.artists[i]=track.artists[i].name;
-            console.log(song.artists[i]);
+            song.artists+=track.artists[i].name+", ";
+            //console.log(song.artists[i]);
         }
         song.img=track.album.images[0].url;
-        console.log(song.img);
+        //console.log(song.img);
+        song.id=track.id;
+        //console.log(song.id);
         songsDisplay.push(song);
     });
     res.locals.taskString=`Showing top 5 results for '${task}'`;
@@ -86,6 +105,8 @@ app.post('/', async(req, res) => {
     
 
 });
+
+
 
 app.get('/auth/login', (req, res) => {
 
@@ -147,6 +168,23 @@ app.get('/auth/callback', async (req, res) => {
     }
 
 });
+
+var generateRandomString = function (length) {
+    var text = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (var i = 0; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+};
+
+function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+
 
 
 app.listen(port, () => {

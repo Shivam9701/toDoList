@@ -10,23 +10,7 @@
 </head>
  <%- include('partials/landing.ejs') %>
 
- <% if(locals.listTasks){ %>
-    
-        <%for(let i=0;i<locals.listTasks.length;i++){ %>
-            <ul>
-            <li>
-                <input type="checkbox" name="check<%=i %>" id="check<%=i %>">
-                <label for="check<%=i %>"><%= listTasks[i] %> </label>
-                
-            </li>
-                
-           </ul>
-        <% } %> 
- <% } %>
-
 </div>  
-
-
 
 </body>
 </html>
